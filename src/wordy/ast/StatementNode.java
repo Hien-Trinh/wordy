@@ -12,8 +12,8 @@ public abstract class StatementNode extends ASTNode {
      *
      * Used to implement the Wordy interpreter.
      *
-     * Reports to the evaluation context’s tracer (if present) when expression evaluation is
-     * starting, and when it is complete.
+     * Reports to the evaluation context’s tracer (if present) when expression evaluation is starting,
+     * and when it is complete.
      *
      * @param context Provides the values of variables.
      */
@@ -29,7 +29,5 @@ public abstract class StatementNode extends ASTNode {
     /**
      * Subclasses should implement this to support interpreted execution.
      */
-    protected void doRun(EvaluationContext context) {
-        throw new UnsupportedOperationException("Interpreter not implemented yet for " + getClass().getSimpleName());
-    }
+    protected abstract void doRun(EvaluationContext context);
 }

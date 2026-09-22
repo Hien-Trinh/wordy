@@ -1,16 +1,22 @@
 package wordy.ast;
 
+import static wordy.ast.Utils.orderedMap;
+
 import java.util.Map;
 import java.util.Objects;
 
-import static wordy.ast.Utils.orderedMap;
+import wordy.interpreter.EvaluationContext;
 
 /**
  * Two expressions joined by an operator (e.g. “x plus y”) in a Wordy abstract syntax tree.
  */
 public class BinaryExpressionNode extends ExpressionNode {
     public enum Operator {
-        ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION, EXPONENTIATION
+        ADDITION,
+        SUBTRACTION,
+        MULTIPLICATION,
+        DIVISION,
+        EXPONENTIATION
     }
 
     private final Operator operator;
@@ -31,9 +37,9 @@ public class BinaryExpressionNode extends ExpressionNode {
 
     @Override
     public boolean equals(Object o) {
-        if(this == o)
+        if (this == o)
             return true;
-        if(o == null || getClass() != o.getClass())
+        if (o == null || getClass() != o.getClass())
             return false;
         BinaryExpressionNode that = (BinaryExpressionNode) o;
         return this.operator == that.operator
@@ -58,5 +64,24 @@ public class BinaryExpressionNode extends ExpressionNode {
     @Override
     protected String describeAttributes() {
         return "(operator=" + operator + ')';
+    }
+
+    @Override
+    protected double doEvaluate(EvaluationContext context) {
+        double left = lhs.evaluate(context);
+        double right = rhs.evaluate(context);
+        if (operator == Operator.ADDITION) {
+            return left + right;
+        } else if (operator == Operator.SUBTRACTION) {
+            return left - right;
+        } else if (operator == Operator.MULTIPLICATION) {
+            return left * right;
+        } else if (operator == Operator.DIVISION) {
+            return left / right;
+        } else if (operator == Operator.EXPONENTIATION) {
+            return Math.pow(left, right);
+        } else {
+            throw new UnsupportedOperationException(operator + " operator isn't supported :(");
+        }
     }
 }
