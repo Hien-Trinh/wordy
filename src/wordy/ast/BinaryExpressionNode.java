@@ -2,6 +2,7 @@ package wordy.ast;
 
 import static wordy.ast.Utils.orderedMap;
 
+import java.io.PrintWriter;
 import java.util.Map;
 import java.util.Objects;
 
@@ -82,6 +83,33 @@ public class BinaryExpressionNode extends ExpressionNode {
             return Math.pow(left, right);
         } else {
             throw new UnsupportedOperationException(operator + " operator isn't supported :(");
+        }
+    }
+
+    @Override
+    public void compile(PrintWriter out) {
+        if (operator == Operator.EXPONENTIATION) {
+            out.print("Math.pow(");
+            lhs.compile(out);
+            out.print(", ");
+            rhs.compile(out);
+            out.print(")");
+        } else {
+            out.print("(");
+            lhs.compile(out);
+            if (operator == Operator.ADDITION) {
+                out.print(" + ");
+            } else if (operator == Operator.SUBTRACTION) {
+                out.print(" - ");
+            } else if (operator == Operator.MULTIPLICATION) {
+                out.print(" * ");
+            } else if (operator == Operator.DIVISION) {
+                out.print(" / ");
+            } else {
+                throw new UnsupportedOperationException(operator + " operator isn't supported :(");
+            }
+            rhs.compile(out);
+            out.print(")");
         }
     }
 }
