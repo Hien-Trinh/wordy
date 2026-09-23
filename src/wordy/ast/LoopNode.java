@@ -49,7 +49,7 @@ public class LoopNode extends StatementNode {
     protected void doRun(EvaluationContext context) {
         while (true) {
             try {
-                body.doRun(context);
+                body.run(context);
             } catch (LoopExited e) {
                 return;
             }
