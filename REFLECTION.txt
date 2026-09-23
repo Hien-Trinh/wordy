@@ -1,0 +1,1 @@
+In BinaryExpressionNode and ConditionalNode, Paul used switch case instead of if else for the different operators. Paul's if, for, etc. sticks to the open parenthesis, my linter auto put a space there. My ConstantNode compile method uses Double.toString, which doesn't break anything and is unnecessary. The rest seems normal.
